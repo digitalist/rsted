@@ -1,9 +1,18 @@
+
+# cache
 *.pyc
+
+# settings 
 /src/settings_base.py
 /settings_local.py
+
+# editors
 .project
 .pydevproject
 .settings
+.idea
+
+# trash
 .tmp*
 /var/run
 /run.sh
