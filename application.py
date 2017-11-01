@@ -2,13 +2,13 @@
 # all the imports
 
 import os, sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 from flask import Flask, request, render_template, make_response, url_for
 
 from rsted.html import rst2html as _rst2html
-from rsted.pdf import rst2pdf as _rst2pdf
+# from rsted.pdf import rst2pdf as _rst2pdf
 
 from flaskext.helpers import render_html
 
@@ -20,7 +20,6 @@ if run_from != os.path.curdir:
 # create our little application :)
 app = Flask(__name__)
 app.config.from_pyfile(os.environ.get('RSTED_CONF', 'settings.py'))
-
 
 
 def view_is_active(view_name):
@@ -35,6 +34,7 @@ def ctx_pro():
         'is_active': view_is_active
     }
 
+
 @app.route("/")
 @render_html('index.html')
 def index():
@@ -45,6 +45,7 @@ def index():
 def about():
     return render_template('about.html')
 
+
 @app.route('/srv/rst2html/', methods=['POST', 'GET'])
 def rst2html():
     rst = request.form.get('rst', '')
@@ -54,19 +55,20 @@ def rst2html():
     html = _rst2html(rst, theme=theme)
     return html
 
-@app.route('/srv/rst2pdf/', methods=['POST'])
-def rst2pdf():
-    rst = request.form.get('rst', '')
-    theme = request.form.get('theme')
-    if theme == 'basic':
-        theme = None
 
-    pdf = _rst2pdf(rst, theme=theme)
-    responce = make_response(pdf)
-    responce.headers['Content-Type'] = 'application/pdf'
-    responce.headers['Content-Disposition'] = 'attachment; filename="rst.pdf"'
-    responce.headers['Content-Transfer-Encoding'] = 'binary'
-    return responce
+# @app.route('/srv/rst2pdf/', methods=['POST'])
+# def rst2pdf():
+#     rst = request.form.get('rst', '')
+#     theme = request.form.get('theme')
+#     if theme == 'basic':
+#         theme = None
+#
+#     pdf = _rst2pdf(rst, theme=theme)
+#     response = make_response(pdf)
+#     response.headers['Content-Type'] = 'application/pdf'
+#     response.headers['Content-Disposition'] = 'attachment; filename="rst.pdf"'
+#     response.headers['Content-Transfer-Encoding'] = 'binary'
+#     return response
 
 
 if __name__ == '__main__':
